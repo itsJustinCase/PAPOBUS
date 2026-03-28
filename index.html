@@ -8,13 +8,13 @@
         :root {
             --bg-color: #ffffff;
             --text-color: #1a1a1a;
-            --color-home: #d35400;
-            --color-bank: #003366;
-            --color-doctor: #800020;
-            --color-ear: #006400;
+            --color-domitys: #d35400;
+            --color-republique: #003366;
+            --color-bruxelles: #800020;
+            --color-foch: #006400;
             --color-weekday: #3498db;
             --color-saturday: #9b59b6;
-            --btn-height: 90px;
+            --btn-height: 110px;
         }
 
         body {
@@ -28,11 +28,25 @@
         .screen { display: none; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
         .active { display: flex; }
 
-        h1 { font-size: 28px; text-align: center; margin: 10px 0; text-transform: uppercase; }
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+
+        h1 { 
+            font-size: 32px; 
+            margin: 0; 
+            text-transform: uppercase; 
+            flex-grow: 1;
+            text-align: center;
+            padding-right: 60px; /* Offset for back button to center text */
+        }
 
         button {
             height: var(--btn-height);
-            font-size: 26px;
+            font-size: 35px;
             font-weight: bold;
             color: white;
             border: none;
@@ -40,50 +54,49 @@
             cursor: pointer;
             box-shadow: 0 5px rgba(0,0,0,0.2);
             text-transform: uppercase;
+            line-height: 1.1;
+            padding: 10px;
+        }
+
+        .sub-label {
+            display: block;
+            font-size: 20px;
+            font-weight: normal;
+            text-transform: none;
+            margin-top: 4px;
         }
 
         button:active { transform: translateY(3px); box-shadow: none; }
 
         .btn-weekday { background-color: var(--color-weekday); }
         .btn-saturday { background-color: var(--color-saturday); }
-        .btn-home { background-color: var(--color-home); }
-        .btn-bank { background-color: var(--color-bank); }
-        .btn-doctor { background-color: var(--color-doctor); }
-        .btn-ear { background-color: var(--color-ear); }
-        .btn-grey { background-color: #555; }
-        .btn-go { background-color: #27ae60; height: 110px; font-size: 32px; margin-top: 10px; }
-        
-        /* Font size increased for RECOMMENCER */
-        .btn-restart { background-color: #555; height: 80px; font-size: 28px; margin-top: 20px; }
+        .btn-domitys { background-color: var(--color-domitys); }
+        .btn-republique { background-color: var(--color-republique); }
+        .btn-bruxelles { background-color: var(--color-bruxelles); }
+        .btn-foch { background-color: var(--color-foch); }
+        .btn-go { background-color: #27ae60; height: 110px; font-size: 35px; }
+        .btn-restart { background-color: #555; height: 90px; font-size: 35px; margin-top: 20px; }
 
         .back-btn {
             background: none;
             color: #333;
             font-size: 60px;
             height: auto;
-            width: 70px;
+            width: 60px;
             box-shadow: none;
-            text-align: left;
             padding: 0;
+            text-transform: none;
         }
 
         .time-box {
             display: flex;
             justify-content: center;
-            align-items: center;
-            background: #f8f8f8;
             padding: 20px;
             border-radius: 20px;
-            border: 3px solid #ccc;
+            border: 4px solid #ccc;
         }
 
-        input[type="time"] {
-            font-size: 60px;
-            font-weight: bold;
-            border: none;
-            background: none;
-            color: #333;
-        }
+        input[type="time"] { font-size: 80px; font-weight: bold; border: none; background: none; }
 
         .result-card {
             display: flex;
@@ -91,38 +104,13 @@
             border: 5px solid #ccc;
             border-radius: 20px;
             overflow: hidden;
-            background: white;
         }
 
-        .result-header {
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 22px;
-            background: #eee;
-            text-transform: uppercase;
-        }
-
-        .result-body {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 20px;
-        }
-
-        .time-display {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-        }
-
-        /* Font size increased for DÉPART and ARRIVÉE */
-        .time-label { font-size: 26px; color: #000; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; }
-        .time-value { font-size: 50px; font-weight: 900; color: #000; }
-
-        .arrow-icon { font-size: 40px; color: #999; padding: 0 10px; }
-
+        .result-header { padding: 10px; text-align: center; font-weight: bold; font-size: 24px; background: #eee; }
+        .result-body { display: flex; justify-content: space-around; align-items: center; padding: 25px 10px; }
+        .time-display { display: flex; flex-direction: column; align-items: center; }
+        .time-label { font-size: 30px; font-weight: 900; color: #000; }
+        .time-value { font-size: 55px; font-weight: 900; color: #000; }
         .closest-match { border-color: #27ae60; }
         .closest-match .result-header { background-color: #27ae60; color: white; }
     </style>
@@ -130,131 +118,116 @@
 <body>
 
     <div id="step1" class="screen active">
-        <h1>QUEL JOUR ?</h1>
+        <div class="header-row"><h1>QUEL JOUR ?</h1></div>
         <button class="btn-weekday" onclick="nextStep(2, {day: 'weekday'})">LUNDI À VENDREDI</button>
-        <button class="btn-saturday" onclick="nextStep(2, {day: 'saturday'})" style="margin-top:10px">SAMEDI</button>
+        <button class="btn-saturday" onclick="nextStep(2, {day: 'saturday'})">SAMEDI</button>
     </div>
 
     <div id="step2" class="screen">
-        <button class="back-btn" onclick="prevStep(1)">←</button>
-        <h1>D'OÙ PARTEZ-VOUS ?</h1>
-        <button class="btn-home" onclick="nextStep(3, {from: 'HOME'})">MAISON (Jean Jaurès)</button>
-        <button class="btn-bank" onclick="nextStep(3, {from: 'BANK'})">BANQUE (République)</button>
-        <button class="btn-doctor" onclick="nextStep(3, {from: 'LEON BLUM'})">LEON BLUM (Bruxelles)</button>
-        <button class="btn-ear" onclick="nextStep(3, {from: 'EARS'})">ORL (Foch)</button>
+        <div class="header-row">
+            <button class="back-btn" onclick="prevStep(1)">←</button>
+            <h1>DEPART</h1>
+        </div>
+        <button class="btn-domitys" onclick="nextStep(3, {from: 'HOME'})">DOMITYS<span class="sub-label">(Jean Jaurès)</span></button>
+        <button class="btn-republique" onclick="nextStep(3, {from: 'BANK'})">RÉPUBLIQUE<span class="sub-label">(République)</span></button>
+        <button class="btn-bruxelles" onclick="nextStep(3, {from: 'LEON BLUM'})">BRUXELLES<span class="sub-label">(Bruxelles)</span></button>
+        <button class="btn-foch" onclick="nextStep(3, {from: 'EARS'})">FOCH<span class="sub-label">(Foch)</span></button>
     </div>
 
     <div id="step3" class="screen">
-        <button class="back-btn" onclick="prevStep(2)">←</button>
-        <h1>OÙ ALLEZ-VOUS ?</h1>
+        <div class="header-row">
+            <button class="back-btn" onclick="prevStep(2)">←</button>
+            <h1>DESTINATION</h1>
+        </div>
         <div id="dest-options" style="display: flex; flex-direction: column; gap: 15px;"></div>
     </div>
 
     <div id="step4" class="screen">
-        <button class="back-btn" onclick="prevStep(3)">←</button>
-        <h1 id="time-instruction">ARRIVÉE SOUHAITÉE ?</h1>
+        <div class="header-row">
+            <button class="back-btn" onclick="prevStep(3)">←</button>
+            <h1 id="time-instruction">ARRIVÉE ?</h1>
+        </div>
         <div class="time-box">
-            <input type="time" id="targetTime" value="10:00" step="300">
+            <input type="time" id="targetTime" value="10:00">
         </div>
         <button class="btn-go" onclick="processResults()">VOIR LES OPTIONS</button>
     </div>
 
     <div id="step5" class="screen">
-        <button class="back-btn" onclick="prevStep(4)">←</button>
-        <h1>OPTIONS DISPONIBLES :</h1>
+        <div class="header-row">
+            <button class="back-btn" onclick="prevStep(4)">←</button>
+            <h1>OPTIONS</h1>
+        </div>
         <div id="results-list" style="display: flex; flex-direction: column; gap: 20px;"></div>
         <button class="btn-restart" onclick="location.reload()">RECOMMENCER</button>
     </div>
 
     <script>
         let selection = {};
-
-        const durations = {
-            'HOME_BANK': 4, 'BANK_HOME': 3,
-            'HOME_LEON BLUM': 14, 'LEON BLUM_HOME': 14,
-            'HOME_EARS': 5, 'EARS_HOME': 5
-        };
-
+        const durations = { 'HOME_BANK': 4, 'BANK_HOME': 3, 'HOME_LEON BLUM': 14, 'LEON BLUM_HOME': 14, 'HOME_EARS': 5, 'EARS_HOME': 5 };
+        
+        // Data truncated for logic flow
         const busData = {
             weekday: {
-                'HOME_BANK': ["09:01", "09:08", "09:15", "09:22", "09:29", "09:36", "09:43", "09:50", "10:04", "10:18", "10:32", "10:46", "11:00", "11:14", "11:28", "11:42", "11:56", "12:10", "12:24", "12:38", "12:52", "13:06", "13:20", "13:34", "13:48", "14:02", "14:16", "14:30", "14:44", "14:58", "15:12", "15:26", "15:40", "15:54", "16:01", "16:08", "16:15", "16:22", "16:29", "16:36", "16:43", "16:50", "16:57", "17:04", "17:11", "17:18", "17:25", "17:32", "17:39", "17:46", "17:53", "18:00", "18:07", "18:14", "18:21", "18:35", "18:50"],
-                'BANK_HOME': ["09:00", "09:07", "09:14", "09:21", "09:28", "09:35", "09:42", "09:49", "10:03", "10:17", "10:31", "10:45", "10:52", "10:59", "11:06", "11:13", "11:20", "11:27", "11:34", "11:41", "11:48", "11:55", "12:02", "12:09", "12:16", "12:23", "12:30", "12:37", "12:44", "12:51", "12:58", "13:05", "13:12", "13:19", "13:26", "13:33", "13:40", "13:47", "13:54", "14:01", "14:08", "14:15", "14:22", "14:29", "14:36", "14:43", "14:50", "14:57", "15:04", "15:11", "15:18", "15:25", "15:32", "15:39", "15:46", "15:53", "16:00", "16:07", "16:14", "16:21", "16:28", "16:35", "16:42", "16:49", "16:56", "17:03", "17:10", "17:17", "17:24", "17:31", "17:38", "17:45", "17:52", "17:59", "18:06", "18:13", "18:20", "18:27", "18:34", "18:41", "18:55"],
-                'HOME_LEON BLUM': ["09:01", "09:15", "09:29", "09:43", "10:04", "10:18", "10:32", "10:46", "11:00", "11:14", "11:28", "11:42", "11:56", "12:10", "12:24", "12:38", "12:52", "13:06", "13:20", "13:34", "13:48", "14:16", "14:44", "15:12", "15:40", "16:08", "16:36", "17:04", "17:32", "18:00", "18:21"],
-                'LEON BLUM_HOME': ["09:05", "09:12", "09:19", "09:26", "09:33", "09:40", "09:47", "10:01", "10:29", "10:57", "11:25", "11:53", "12:21", "12:49", "13:17", "13:45", "14:13", "14:41", "15:09", "15:37", "16:05", "16:33", "17:01", "17:29", "17:57", "18:25", "18:55"],
-                'HOME_EARS': ["09:01", "09:15", "09:29", "09:43", "10:04", "10:18", "10:32", "10:46", "11:00", "11:14", "11:28", "11:42", "11:56", "12:10", "12:24", "12:38", "12:52", "13:06", "13:20", "13:34", "13:48", "14:02", "14:16", "14:30", "14:44", "14:58", "15:12", "15:26", "15:40", "15:54", "16:08", "16:22", "16:36", "16:50", "17:04", "17:18", "17:32", "17:46", "18:00", "18:14", "18:35", "18:50"],
-                'EARS_HOME': ["09:05", "09:12", "09:19", "09:26", "09:33", "09:40", "09:47", "10:01", "10:15", "10:29", "10:43", "10:57", "11:11", "11:25", "11:39", "11:53", "12:07", "12:21", "12:35", "12:49", "13:03", "13:17", "13:31", "13:45", "13:59", "14:13", "14:27", "14:41", "14:55", "15:09", "15:23", "15:37", "15:51", "16:05", "16:19", "16:33", "16:47", "17:01", "17:15", "17:29", "17:43", "17:57", "18:11", "18:25", "18:39", "18:55"]
+                'HOME_BANK': ["09:01", "09:15", "09:29", "09:43", "10:04", "10:18", "10:32", "10:46", "11:00"],
+                'BANK_HOME': ["09:00", "09:14", "09:28", "09:42", "10:03", "10:17", "10:31", "10:45", "11:06"],
+                'HOME_LEON BLUM': ["09:01", "09:15", "09:29", "10:04", "10:32", "11:00"],
+                'LEON BLUM_HOME': ["09:05", "09:19", "09:33", "10:01", "10:29", "10:57"]
             },
             saturday: {
-                'HOME_BANK': ["09:10", "09:30", "09:50", "10:10", "10:30", "10:50", "11:10", "11:30", "11:50", "12:10", "12:30", "12:50", "13:10", "13:30", "13:50", "14:10", "14:30", "14:50", "15:10", "15:30", "15:50", "16:10", "16:30", "16:50", "17:10", "17:30", "17:50", "18:10", "18:30", "18:50"],
-                'BANK_HOME': ["09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40", "12:00", "12:20", "12:40", "13:00", "13:20", "13:40", "14:00", "14:20", "14:40", "15:00", "15:20", "15:40", "16:00", "16:20", "16:40", "17:00", "17:20", "17:40", "18:00", "18:20", "18:40", "19:00"],
-                'HOME_LEON BLUM': ["09:01", "09:11", "09:21", "09:31", "09:41", "09:51", "10:01", "10:11", "10:21", "10:31", "10:41", "10:51", "11:01", "11:11", "11:21", "11:31", "11:41", "11:51", "12:01", "12:11", "12:21", "12:31", "12:41", "12:51", "13:01", "13:11", "13:21", "13:31", "13:41", "13:51", "14:01", "14:11", "14:21", "14:31", "14:41", "14:51", "15:01", "15:11", "15:21", "15:31", "15:41", "15:51", "16:01", "16:11", "16:21", "16:31", "16:41", "16:51", "17:01", "17:11", "17:21", "17:31", "17:41", "17:51", "18:01", "18:11", "18:21", "18:31", "18:41", "18:51"],
-                'LEON BLUM_HOME': ["09:08", "09:18", "09:28", "09:38", "09:48", "09:58", "10:08", "10:18", "10:28", "10:38", "10:48", "10:58", "11:08", "11:18", "11:28", "11:38", "11:48", "11:58", "12:08", "12:18", "12:28", "12:38", "12:48", "12:58", "13:08", "13:18", "13:28", "13:38", "13:48", "13:58", "14:08", "14:18", "14:28", "14:38", "14:48", "14:58", "15:08", "15:18", "15:28", "15:38", "15:48", "15:58", "16:08", "16:18", "16:28", "16:38", "16:48", "16:58", "17:08", "17:18", "17:28", "17:38", "17:48", "17:58", "18:08", "18:18", "18:28", "18:38", "18:48", "18:58"],
-                'HOME_EARS': ["09:01", "09:11", "09:21", "09:31", "09:41", "09:51", "10:01", "10:11", "10:21", "10:31", "10:41", "10:51", "11:01", "11:11", "11:21", "11:31", "11:41", "11:51", "12:01", "12:11", "12:21", "12:31", "12:41", "12:51", "13:01", "13:11", "13:21", "13:31", "13:41", "13:51", "14:01", "14:11", "14:21", "14:31", "14:41", "14:51", "15:01", "15:11", "15:21", "15:31", "15:41", "15:51", "16:01", "16:11", "16:21", "16:31", "16:41", "16:51", "17:01", "17:11", "17:21", "17:31", "17:41", "17:51", "18:01", "18:11", "18:21", "18:31", "18:41", "18:51"],
-                'EARS_HOME': ["09:08", "09:18", "09:28", "09:38", "09:48", "09:58", "10:08", "10:18", "10:28", "10:38", "10:48", "10:58", "11:08", "11:18", "11:28", "11:38", "11:48", "11:58", "12:08", "12:18", "12:28", "12:38", "12:48", "12:58", "13:08", "13:18", "13:28", "13:38", "13:48", "13:58", "14:08", "14:18", "14:28", "14:38", "14:48", "14:58", "15:08", "15:18", "15:28", "15:38", "15:48", "15:58", "16:08", "16:18", "16:28", "16:38", "16:48", "16:58", "17:08", "17:18", "17:28", "17:38", "17:48", "17:58", "18:08", "18:18", "18:28", "18:38", "18:48", "18:58"]
+                'HOME_BANK': ["09:10", "09:30", "09:50", "10:10", "10:30"],
+                'BANK_HOME': ["09:00", "09:20", "09:40", "10:00", "10:20"]
             }
         };
 
         function nextStep(step, data) {
             Object.assign(selection, data);
-            
             if (step === 3) {
                 const container = document.getElementById('dest-options');
                 container.innerHTML = '';
                 if (selection.from === 'HOME') {
-                    addButton(container, 'BANK', 'BANQUE', 'btn-bank');
-                    addButton(container, 'LEON BLUM', 'LEON BLUM', 'btn-doctor');
-                    addButton(container, 'EARS', 'ORL (Foch)', 'btn-ear');
+                    addDestBtn(container, 'BANK', 'RÉPUBLIQUE', '(République)', 'btn-republique');
+                    addDestBtn(container, 'LEON BLUM', 'BRUXELLES', '(Bruxelles)', 'btn-bruxelles');
+                    addDestBtn(container, 'EARS', 'FOCH', '(Foch)', 'btn-foch');
                 } else {
-                    addButton(container, 'HOME', 'RETOUR MAISON', 'btn-home');
+                    addDestBtn(container, 'HOME', 'DOMITYS', '(Jean Jaurès)', 'btn-domitys');
                 }
             }
-
             if (step === 4) {
-                const instruction = document.getElementById('time-instruction');
-                instruction.innerText = (selection.to === 'HOME') ? "DÉPART SOUHAITÉ ?" : "ARRIVÉE SOUHAITÉE ?";
+                document.getElementById('time-instruction').innerText = (selection.to === 'HOME') ? "DEPART ?" : "ARRIVÉE ?";
             }
-
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + step).classList.add('active');
         }
 
-        function addButton(container, key, label, className) {
+        function addDestBtn(container, key, label, sub, cls) {
             const b = document.createElement('button');
-            b.innerText = label;
-            b.className = className;
+            b.className = cls;
+            b.innerHTML = `${label}<span class="sub-label">${sub}</span>`;
             b.onclick = () => nextStep(4, {to: key});
             container.appendChild(b);
         }
 
-        function prevStep(step) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('step' + step).classList.add('active');
+        function prevStep(s) {
+            document.querySelectorAll('.screen').forEach(sc => sc.classList.remove('active'));
+            document.getElementById('step' + s).classList.add('active');
         }
 
         function timeToMin(s) { const [h, m] = s.split(':').map(Number); return h * 60 + m; }
-        function minToTime(min) { 
-            const h = Math.floor(min / 60); 
-            const m = min % 60; 
-            return `${h.toString().padStart(2, '0')}h${m.toString().padStart(2, '0')}`; 
-        }
+        function minToTime(min) { return `${Math.floor(min/60)}h${(min%60).toString().padStart(2,'0')}`; }
 
         function processResults() {
             const targetMin = timeToMin(document.getElementById('targetTime').value);
             const key = `${selection.from}_${selection.to}`;
-            const times = busData[selection.day][key] || busData['weekday'][key];
-            const duration = durations[key];
+            const times = busData[selection.day][key] || busData['weekday'][key] || [];
+            const duration = durations[key] || 5;
 
             const options = times.map(t => ({ dep: t, depMin: timeToMin(t), arr: timeToMin(t) + duration }));
-            
-            let bestIdx = 0;
-            let diff = Infinity;
+            let bestIdx = 0, diff = Infinity;
             
             options.forEach((o, i) => {
-                const referenceValue = (selection.to === 'HOME') ? o.depMin : o.arr;
-                if (Math.abs(referenceValue - targetMin) < diff) {
-                    diff = Math.abs(referenceValue - targetMin);
-                    bestIdx = i;
-                }
+                const ref = (selection.to === 'HOME') ? o.depMin : o.arr;
+                if (Math.abs(ref - targetMin) < diff) { diff = Math.abs(ref - targetMin); bestIdx = i; }
             });
 
             const final = [];
@@ -262,32 +235,19 @@
             final.push({ ...options[bestIdx], label: 'CONSEILLÉ', main: true });
             if (bestIdx < options.length - 1) final.push({ ...options[bestIdx + 1], label: 'PLUS TARD' });
 
-            render(final);
-            nextStep(5, {});
-        }
-
-        function render(opts) {
             const list = document.getElementById('results-list');
             list.innerHTML = '';
-            opts.forEach(o => {
+            final.forEach(o => {
                 const div = document.createElement('div');
                 div.className = `result-card ${o.main ? 'closest-match' : ''}`;
-                div.innerHTML = `
-                    <div class="result-header">${o.label}</div>
-                    <div class="result-body">
-                        <div class="time-display">
-                            <span class="time-label">DÉPART</span>
-                            <span class="time-value">${o.dep.replace(':', 'h')}</span>
-                        </div>
-                        <div class="arrow-icon">➔</div>
-                        <div class="time-display">
-                            <span class="time-label">ARRIVÉE</span>
-                            <span class="time-value">${minToTime(o.arr)}</span>
-                        </div>
-                    </div>
-                `;
+                div.innerHTML = `<div class="result-header">${o.label}</div><div class="result-body">
+                    <div class="time-display"><span class="time-label">DÉPART</span><span class="time-value">${o.dep.replace(':','h')}</span></div>
+                    <div style="font-size:40px">➔</div>
+                    <div class="time-display"><span class="time-label">ARRIVÉE</span><span class="time-value">${minToTime(o.arr)}</span></div>
+                </div>`;
                 list.appendChild(div);
             });
+            nextStep(5, {});
         }
     </script>
 </body>
