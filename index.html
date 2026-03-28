@@ -12,8 +12,9 @@
             --color-bank: #003366;      /* Dark Blue */
             --color-doctor: #800020;    /* Dark Burgundy */
             --color-ear: #006400;       /* Dark Green */
+            --color-weekday: #3498db;   /* Light Blue */
+            --color-saturday: #9b59b6;  /* Light Purple */
             --btn-height: 90px;
-            --font-xl: 32px;
         }
 
         body {
@@ -27,9 +28,8 @@
         .screen { display: none; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
         .active { display: flex; }
 
-        h1 { font-size: 28px; text-align: center; margin: 10px 0; }
+        h1 { font-size: 28px; text-align: center; margin: 10px 0; text-transform: uppercase; }
 
-        /* General Button Styling */
         button {
             height: var(--btn-height);
             font-size: 26px;
@@ -39,11 +39,13 @@
             border-radius: 15px;
             cursor: pointer;
             box-shadow: 0 5px rgba(0,0,0,0.2);
+            text-transform: uppercase;
         }
 
         button:active { transform: translateY(3px); box-shadow: none; }
 
-        /* Destination Specific Colors */
+        .btn-weekday { background-color: var(--color-weekday); }
+        .btn-saturday { background-color: var(--color-saturday); }
         .btn-home { background-color: var(--color-home); }
         .btn-bank { background-color: var(--color-bank); }
         .btn-doctor { background-color: var(--color-doctor); }
@@ -51,7 +53,6 @@
         .btn-grey { background-color: #555; }
         .btn-go { background-color: #27ae60; height: 110px; font-size: 32px; margin-top: 10px; }
 
-        /* Back Arrow */
         .back-btn {
             background: none;
             color: #333;
@@ -63,12 +64,11 @@
             padding: 0;
         }
 
-        /* Time Selection */
         .time-box {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #eee;
+            background: #f8f8f8;
             padding: 20px;
             border-radius: 20px;
             border: 3px solid #ccc;
@@ -82,7 +82,6 @@
             color: #333;
         }
 
-        /* Result Cards */
         .result-card {
             display: flex;
             flex-direction: column;
@@ -96,27 +95,29 @@
             padding: 10px;
             text-align: center;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 22px;
             background: #eee;
+            text-transform: uppercase;
         }
 
         .result-body {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
-            padding: 20px 10px;
+            padding: 25px 20px;
         }
 
         .time-display {
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1;
         }
 
-        .time-label { font-size: 18px; color: #666; margin-bottom: 5px; }
-        .time-value { font-size: 45px; font-weight: 800; color: #000; }
+        .time-label { font-size: 20px; color: #444; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
+        .time-value { font-size: 50px; font-weight: 900; color: #000; }
 
-        .arrow-icon { font-size: 40px; color: #999; }
+        .arrow-icon { font-size: 40px; color: #999; padding: 0 10px; }
 
         .closest-match { border-color: #27ae60; }
         .closest-match .result-header { background-color: #27ae60; color: white; }
@@ -125,14 +126,14 @@
 <body>
 
     <div id="step1" class="screen active">
-        <h1>Quel jour ?</h1>
-        <button class="btn-grey" onclick="nextStep(2, {day: 'weekday'})">LUNDI À VENDREDI</button>
-        <button class="btn-grey" onclick="nextStep(2, {day: 'saturday'})" style="margin-top:10px">SAMEDI</button>
+        <h1>QUEL JOUR ?</h1>
+        <button class="btn-weekday" onclick="nextStep(2, {day: 'weekday'})">LUNDI À VENDREDI</button>
+        <button class="btn-saturday" onclick="nextStep(2, {day: 'saturday'})" style="margin-top:10px">SAMEDI</button>
     </div>
 
     <div id="step2" class="screen">
         <button class="back-btn" onclick="prevStep(1)">←</button>
-        <h1>D'où partez-vous ?</h1>
+        <h1>D'OÙ PARTEZ-VOUS ?</h1>
         <button class="btn-home" onclick="nextStep(3, {from: 'HOME'})">MAISON (Jean Jaurès)</button>
         <button class="btn-bank" onclick="nextStep(3, {from: 'BANK'})">BANQUE (République)</button>
         <button class="btn-doctor" onclick="nextStep(3, {from: 'LEON BLUM'})">LEON BLUM (Bruxelles)</button>
@@ -141,13 +142,13 @@
 
     <div id="step3" class="screen">
         <button class="back-btn" onclick="prevStep(2)">←</button>
-        <h1>Où allez-vous ?</h1>
+        <h1>OÙ ALLEZ-VOUS ?</h1>
         <div id="dest-options" style="display: flex; flex-direction: column; gap: 15px;"></div>
     </div>
 
     <div id="step4" class="screen">
         <button class="back-btn" onclick="prevStep(3)">←</button>
-        <h1>Arrivée souhaitée ?</h1>
+        <h1>ARRIVÉE SOUHAITÉE ?</h1>
         <div class="time-box">
             <input type="time" id="targetTime" value="10:00" step="300" min="08:00" max="20:00">
         </div>
@@ -156,7 +157,7 @@
 
     <div id="step5" class="screen">
         <button class="back-btn" onclick="prevStep(4)">←</button>
-        <h1 id="result-title">Bus disponibles :</h1>
+        <h1>OPTIONS DISPONIBLES :</h1>
         <div id="results-list" style="display: flex; flex-direction: column; gap: 20px;"></div>
         <button class="btn-grey" onclick="location.reload()" style="margin-top:20px; height: 60px; font-size:20px">RECOMMENCER</button>
     </div>
@@ -173,17 +174,19 @@
         const busData = {
             weekday: {
                 'HOME_BANK': ["09:01", "09:08", "09:15", "09:22", "09:29", "09:36", "09:43", "09:50", "10:04", "10:18", "10:32", "10:46", "11:00", "11:14", "11:28", "11:42", "11:56", "12:10", "12:24", "12:38", "12:52", "13:06", "13:20", "13:34", "13:48", "14:02", "14:16", "14:30", "14:44", "14:58", "15:12", "15:26", "15:40", "15:54", "16:01", "16:08", "16:15", "16:22", "16:29", "16:36", "16:43", "16:50", "16:57", "17:04", "17:11", "17:18", "17:25", "17:32", "17:39", "17:46", "17:53", "18:00", "18:07", "18:14", "18:21", "18:35", "18:50"],
-                'BANK_HOME': ["09:00", "09:07", "09:14", "09:21", "09:28", "09:35", "09:42", "09:49", "10:03", "10:17", "10:31", "10:45", "10:59", "11:13", "11:27", "11:41", "11:55", "12:09", "12:23", "12:37", "12:51", "13:05", "13:19", "13:33", "13:47", "14:01", "14:15", "14:29", "14:43", "14:57", "15:11", "15:25", "15:39", "15:53", "16:07", "16:21", "16:35", "16:49", "17:03", "17:17", "17:31", "17:45", "17:59", "18:13", "18:27", "18:41", "18:55"],
-                'HOME_LEON BLUM': ["09:01", "09:15", "09:29", "09:43", "10:04", "10:32", "11:00", "11:28", "11:56", "12:24", "12:52", "13:20", "13:48", "14:16", "14:44", "15:12", "15:40", "16:08", "16:36", "17:04", "17:32", "18:00", "18:21"],
-                'LEON BLUM_HOME': ["09:05", "09:33", "10:01", "10:29", "10:57", "11:25", "11:53", "12:21", "12:49", "13:17", "13:45", "14:13", "14:41", "15:09", "15:37", "16:05", "16:33", "17:01", "17:29", "17:57", "18:25", "18:55"],
-                'HOME_EARS': ["09:01", "09:08", "09:15", "09:22", "09:29", "09:36", "09:43", "09:50", "10:04", "10:18", "10:32", "10:46", "11:00", "11:14", "11:28", "11:42", "11:56", "12:10", "12:24", "12:38", "12:52", "13:06", "13:20", "13:34", "13:48", "14:02", "14:16", "14:30", "14:44", "14:58", "15:12", "15:26", "15:40", "15:54", "16:08", "16:22", "16:36", "16:50", "17:04", "17:18", "17:32", "17:46", "18:00", "18:14", "18:35", "18:50"],
-                'EARS_HOME': ["09:05", "09:12", "09:19", "09:26", "09:33", "09:40", "09:47", "09:54", "10:01", "10:15", "10:29", "10:43", "10:57", "11:11", "11:25", "11:39", "11:53", "12:07", "12:21", "12:35", "12:49", "13:03", "13:17", "13:31", "13:45", "13:59", "14:13", "14:27", "14:41", "14:55", "15:09", "15:23", "15:37", "15:51", "16:05", "16:19", "16:33", "16:47", "17:01", "17:15", "17:29", "17:43", "17:57", "18:11", "18:25", "18:39", "18:55"]
+                'BANK_HOME': ["09:00", "09:07", "09:14", "09:21", "09:28", "09:35", "09:42", "09:49", "10:03", "10:17", "10:31", "10:45", "10:52", "10:59", "11:06", "11:13", "11:20", "11:27", "11:34", "11:41", "11:48", "11:55", "12:02", "12:09", "12:16", "12:23", "12:30", "12:37", "12:44", "12:51", "12:58", "13:05", "13:12", "13:19", "13:26", "13:33", "13:40", "13:47", "13:54", "14:01", "14:08", "14:15", "14:22", "14:29", "14:36", "14:43", "14:50", "14:57", "15:04", "15:11", "15:18", "15:25", "15:32", "15:39", "15:46", "15:53", "16:00", "16:07", "16:14", "16:21", "16:28", "16:35", "16:42", "16:49", "16:56", "17:03", "17:10", "17:17", "17:24", "17:31", "17:38", "17:45", "17:52", "17:59", "18:06", "18:13", "18:20", "18:27", "18:34", "18:41", "18:55"],
+                'HOME_LEON BLUM': ["09:01", "09:15", "09:29", "09:43", "10:04", "10:18", "10:32", "10:46", "11:00", "11:14", "11:28", "11:42", "11:56", "12:10", "12:24", "12:38", "12:52", "13:06", "13:20", "13:34", "13:48", "14:16", "14:44", "15:12", "15:40", "16:08", "16:36", "17:04", "17:32", "18:00", "18:21"],
+                'LEON BLUM_HOME': ["09:05", "09:12", "09:19", "09:26", "09:33", "09:40", "09:47", "10:01", "10:29", "10:57", "11:25", "11:53", "12:21", "12:49", "13:17", "13:45", "14:13", "14:41", "15:09", "15:37", "16:05", "16:33", "17:01", "17:29", "17:57", "18:25", "18:55"],
+                'HOME_EARS': ["09:01", "09:15", "09:29", "09:43", "10:04", "10:18", "10:32", "10:46", "11:00", "11:14", "11:28", "11:42", "11:56", "12:10", "12:24", "12:38", "12:52", "13:06", "13:20", "13:34", "13:48", "14:02", "14:16", "14:30", "14:44", "14:58", "15:12", "15:26", "15:40", "15:54", "16:08", "16:22", "16:36", "16:50", "17:04", "17:18", "17:32", "17:46", "18:00", "18:14", "18:35", "18:50"],
+                'EARS_HOME': ["09:05", "09:12", "09:19", "09:26", "09:33", "09:40", "09:47", "10:01", "10:15", "10:29", "10:43", "10:57", "11:11", "11:25", "11:39", "11:53", "12:07", "12:21", "12:35", "12:49", "13:03", "13:17", "13:31", "13:45", "13:59", "14:13", "14:27", "14:41", "14:55", "15:09", "15:23", "15:37", "15:51", "16:05", "16:19", "16:33", "16:47", "17:01", "17:15", "17:29", "17:43", "17:57", "18:11", "18:25", "18:39", "18:55"]
             },
             saturday: {
-                // Simplified Saturday block
                 'HOME_BANK': ["09:10", "09:30", "09:50", "10:10", "10:30", "10:50", "11:10", "11:30", "11:50", "12:10", "12:30", "12:50", "13:10", "13:30", "13:50", "14:10", "14:30", "14:50", "15:10", "15:30", "15:50", "16:10", "16:30", "16:50", "17:10", "17:30", "17:50", "18:10", "18:30", "18:50"],
-                'BANK_HOME': ["09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40", "12:00", "12:20", "12:40", "13:00", "13:20", "13:40", "14:00", "14:20", "14:40", "15:00", "15:20", "15:40", "16:00", "16:20", "16:40", "17:00", "17:20", "17:40", "18:00", "18:20", "18:40", "19:00"]
-                // Additional saturday routes omitted for space, identical logic applies
+                'BANK_HOME': ["09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40", "12:00", "12:20", "12:40", "13:00", "13:20", "13:40", "14:00", "14:20", "14:40", "15:00", "15:20", "15:40", "16:00", "16:20", "16:40", "17:00", "17:20", "17:40", "18:00", "18:20", "18:40", "19:00"],
+                'HOME_LEON BLUM': ["09:01", "09:11", "09:21", "09:31", "09:41", "09:51", "10:01", "10:11", "10:21", "10:31", "10:41", "10:51", "11:01", "11:11", "11:21", "11:31", "11:41", "11:51", "12:01", "12:11", "12:21", "12:31", "12:41", "12:51", "13:01", "13:11", "13:21", "13:31", "13:41", "13:51", "14:01", "14:11", "14:21", "14:31", "14:41", "14:51", "15:01", "15:11", "15:21", "15:31", "15:41", "15:51", "16:01", "16:11", "16:21", "16:31", "16:41", "16:51", "17:01", "17:11", "17:21", "17:31", "17:41", "17:51", "18:01", "18:11", "18:21", "18:31", "18:41", "18:51"],
+                'LEON BLUM_HOME': ["09:08", "09:18", "09:28", "09:38", "09:48", "09:58", "10:08", "10:18", "10:28", "10:38", "10:48", "10:58", "11:08", "11:18", "11:28", "11:38", "11:48", "11:58", "12:08", "12:18", "12:28", "12:38", "12:48", "12:58", "13:08", "13:18", "13:28", "13:38", "13:48", "13:58", "14:08", "14:18", "14:28", "14:38", "14:48", "14:58", "15:08", "15:18", "15:28", "15:38", "15:48", "15:58", "16:08", "16:18", "16:28", "16:38", "16:48", "16:58", "17:08", "17:18", "17:28", "17:38", "17:48", "17:58", "18:08", "18:18", "18:28", "18:38", "18:48", "18:58"],
+                'HOME_EARS': ["09:01", "09:11", "09:21", "09:31", "09:41", "09:51", "10:01", "10:11", "10:21", "10:31", "10:41", "10:51", "11:01", "11:11", "11:21", "11:31", "11:41", "11:51", "12:01", "12:11", "12:21", "12:31", "12:41", "12:51", "13:01", "13:11", "13:21", "13:31", "13:41", "13:51", "14:01", "14:11", "14:21", "14:31", "14:41", "14:51", "15:01", "15:11", "15:21", "15:31", "15:41", "15:51", "16:01", "16:11", "16:21", "16:31", "16:41", "16:51", "17:01", "17:11", "17:21", "17:31", "17:41", "17:51", "18:01", "18:11", "18:21", "18:31", "18:41", "18:51"],
+                'EARS_HOME': ["09:08", "09:18", "09:28", "09:38", "09:48", "09:58", "10:08", "10:18", "10:28", "10:38", "10:48", "10:58", "11:08", "11:18", "11:28", "11:38", "11:48", "11:58", "12:08", "12:18", "12:28", "12:38", "12:48", "12:58", "13:08", "13:18", "13:28", "13:38", "13:48", "13:58", "14:08", "14:18", "14:28", "14:38", "14:48", "14:58", "15:08", "15:18", "15:28", "15:38", "15:48", "15:58", "16:08", "16:18", "16:28", "16:38", "16:48", "16:58", "17:08", "17:18", "17:28", "17:38", "17:48", "17:58", "18:08", "18:18", "18:28", "18:38", "18:48", "18:58"]
             }
         };
 
@@ -228,7 +231,7 @@
         function processResults() {
             const targetMin = timeToMin(document.getElementById('targetTime').value);
             const key = `${selection.from}_${selection.to}`;
-            const times = busData[selection.day][key] || busData['weekday'][key]; // Fallback if sat is missing
+            const times = busData[selection.day][key] || busData['weekday'][key];
             const duration = durations[key];
 
             const options = times.map(t => ({ dep: t, arr: timeToMin(t) + duration }));
@@ -243,9 +246,9 @@
             });
 
             const final = [];
-            if (bestIdx > 0) final.push({ ...options[bestIdx - 1], label: 'Plus tôt' });
-            final.push({ ...options[bestIdx], label: 'Conseillé', main: true });
-            if (bestIdx < options.length - 1) final.push({ ...options[bestIdx + 1], label: 'Plus tard' });
+            if (bestIdx > 0) final.push({ ...options[bestIdx - 1], label: 'PLUS TÔT' });
+            final.push({ ...options[bestIdx], label: 'CONSEILLÉ', main: true });
+            if (bestIdx < options.length - 1) final.push({ ...options[bestIdx + 1], label: 'PLUS TARD' });
 
             render(final);
             nextStep(5, {});
@@ -261,12 +264,12 @@
                     <div class="result-header">${o.label}</div>
                     <div class="result-body">
                         <div class="time-display">
-                            <span class="time-label">Départ</span>
+                            <span class="time-label">DÉPART</span>
                             <span class="time-value">${o.dep.replace(':', 'h')}</span>
                         </div>
                         <div class="arrow-icon">➔</div>
                         <div class="time-display">
-                            <span class="time-label">Arrivée</span>
+                            <span class="time-label">ARRIVÉE</span>
                             <span class="time-value">${minToTime(o.arr)}</span>
                         </div>
                     </div>
