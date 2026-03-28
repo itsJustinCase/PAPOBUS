@@ -126,7 +126,7 @@
     <div id="step2" class="screen">
         <div class="header-row">
             <button class="back-btn" onclick="prevStep(1)">←</button>
-            <h1>DEPART</h1>
+            <h1>DEPART DE</h1>
         </div>
         <button class="btn-domitys" onclick="nextStep(3, {from: 'HOME'})">DOMITYS<span class="sub-label">(Jean Jaurès)</span></button>
         <button class="btn-republique" onclick="nextStep(3, {from: 'BANK'})">BANQUE<span class="sub-label">(République)</span></button>
@@ -145,7 +145,7 @@
     <div id="step4" class="screen">
         <div class="header-row">
             <button class="back-btn" onclick="prevStep(3)">←</button>
-            <h1 id="time-instruction">ARRIVÉE ?</h1>
+            <h1 id="time-instruction">ARRIVÉE VERS</h1>
         </div>
         <div class="time-box">
             <input type="time" id="targetTime" value="10:00">
@@ -156,7 +156,7 @@
     <div id="step5" class="screen">
         <div class="header-row">
             <button class="back-btn" onclick="prevStep(4)">←</button>
-            <h1>OPTIONS</h1>
+            <h1>MES OPTIONS</h1>
         </div>
         <div id="results-list" style="display: flex; flex-direction: column; gap: 20px;"></div>
         <button class="btn-restart" onclick="location.reload()">RECOMMENCER</button>
@@ -255,9 +255,9 @@
             const selectionSlice = options.slice(startIdx, startIdx + 3);
             selectionSlice.forEach((o, i) => {
                 let label = "OPTION";
-                if (o.depMin === options[bestIdx].depMin) label = "CONSEILLÉ";
-                else if (o.depMin < options[bestIdx].depMin) label = "PLUS TÔT";
-                else if (o.depMin > options[bestIdx].depMin) label = "PLUS TARD";
+                if (o.depMin === options[bestIdx].depMin) label = "TRAJET CONSEILLÉ";
+                else if (o.depMin < options[bestIdx].depMin) label = "UN PEU PLUS TÔT";
+                else if (o.depMin > options[bestIdx].depMin) label = "UN PEU PLUS TARD";
                 
                 final.push({ ...o, label: label, main: (label === "CONSEILLÉ") });
             });
