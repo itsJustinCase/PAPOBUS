@@ -8,12 +8,12 @@
         :root {
             --bg-color: #ffffff;
             --text-color: #1a1a1a;
-            --color-home: #d35400;      /* Dark Orange */
-            --color-bank: #003366;      /* Dark Blue */
-            --color-doctor: #800020;    /* Dark Burgundy */
-            --color-ear: #006400;       /* Dark Green */
-            --color-weekday: #3498db;   /* Light Blue */
-            --color-saturday: #9b59b6;  /* Light Purple */
+            --color-home: #d35400;
+            --color-bank: #003366;
+            --color-doctor: #800020;
+            --color-ear: #006400;
+            --color-weekday: #3498db;
+            --color-saturday: #9b59b6;
             --btn-height: 90px;
         }
 
@@ -52,6 +52,9 @@
         .btn-ear { background-color: var(--color-ear); }
         .btn-grey { background-color: #555; }
         .btn-go { background-color: #27ae60; height: 110px; font-size: 32px; margin-top: 10px; }
+        
+        /* Font size increased for RECOMMENCER */
+        .btn-restart { background-color: #555; height: 80px; font-size: 28px; margin-top: 20px; }
 
         .back-btn {
             background: none;
@@ -114,7 +117,8 @@
             flex: 1;
         }
 
-        .time-label { font-size: 20px; color: #444; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
+        /* Font size increased for DÉPART and ARRIVÉE */
+        .time-label { font-size: 26px; color: #000; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; }
         .time-value { font-size: 50px; font-weight: 900; color: #000; }
 
         .arrow-icon { font-size: 40px; color: #999; padding: 0 10px; }
@@ -148,9 +152,9 @@
 
     <div id="step4" class="screen">
         <button class="back-btn" onclick="prevStep(3)">←</button>
-        <h1>ARRIVÉE SOUHAITÉE ?</h1>
+        <h1 id="time-instruction">ARRIVÉE SOUHAITÉE ?</h1>
         <div class="time-box">
-            <input type="time" id="targetTime" value="10:00" step="300" min="08:00" max="20:00">
+            <input type="time" id="targetTime" value="10:00" step="300">
         </div>
         <button class="btn-go" onclick="processResults()">VOIR LES OPTIONS</button>
     </div>
@@ -159,7 +163,7 @@
         <button class="back-btn" onclick="prevStep(4)">←</button>
         <h1>OPTIONS DISPONIBLES :</h1>
         <div id="results-list" style="display: flex; flex-direction: column; gap: 20px;"></div>
-        <button class="btn-grey" onclick="location.reload()" style="margin-top:20px; height: 60px; font-size:20px">RECOMMENCER</button>
+        <button class="btn-restart" onclick="location.reload()">RECOMMENCER</button>
     </div>
 
     <script>
@@ -192,9 +196,7 @@
 
         function nextStep(step, data) {
             Object.assign(selection, data);
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('step' + step).classList.add('active');
-
+            
             if (step === 3) {
                 const container = document.getElementById('dest-options');
                 container.innerHTML = '';
@@ -206,6 +208,14 @@
                     addButton(container, 'HOME', 'RETOUR MAISON', 'btn-home');
                 }
             }
+
+            if (step === 4) {
+                const instruction = document.getElementById('time-instruction');
+                instruction.innerText = (selection.to === 'HOME') ? "DÉPART SOUHAITÉ ?" : "ARRIVÉE SOUHAITÉE ?";
+            }
+
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
         }
 
         function addButton(container, key, label, className) {
@@ -234,13 +244,15 @@
             const times = busData[selection.day][key] || busData['weekday'][key];
             const duration = durations[key];
 
-            const options = times.map(t => ({ dep: t, arr: timeToMin(t) + duration }));
+            const options = times.map(t => ({ dep: t, depMin: timeToMin(t), arr: timeToMin(t) + duration }));
             
             let bestIdx = 0;
             let diff = Infinity;
+            
             options.forEach((o, i) => {
-                if (Math.abs(o.arr - targetMin) < diff) {
-                    diff = Math.abs(o.arr - targetMin);
+                const referenceValue = (selection.to === 'HOME') ? o.depMin : o.arr;
+                if (Math.abs(referenceValue - targetMin) < diff) {
+                    diff = Math.abs(referenceValue - targetMin);
                     bestIdx = i;
                 }
             });
