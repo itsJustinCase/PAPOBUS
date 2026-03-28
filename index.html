@@ -199,7 +199,7 @@
                 }
             }
             if (step === 4) {
-                document.getElementById('time-instruction').innerText = (selection.to === 'HOME') ? "DEPART ?" : "ARRIVÉE ?";
+                document.getElementById('time-instruction').innerText = (selection.to === 'HOME') ? "DEPART DE" : "ARRIVÉE VERS";
             }
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + step).classList.add('active');
@@ -259,7 +259,7 @@
                 else if (o.depMin < options[bestIdx].depMin) label = "UN PEU PLUS TÔT";
                 else if (o.depMin > options[bestIdx].depMin) label = "UN PEU PLUS TARD";
                 
-                final.push({ ...o, label: label, main: (label === "CONSEILLÉ") });
+                final.push({ ...o, label: label, main: (label === "TRAJET CONSEILLÉ") });
             });
 
             const list = document.getElementById('results-list');
