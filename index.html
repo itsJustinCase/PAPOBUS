@@ -14,7 +14,7 @@
             --color-foch: #006400;
             --color-weekday: #3498db;
             --color-saturday: #9b59b6;
-            --btn-height: 110px;
+            --btn-height: 125px;
         }
 
         body {
@@ -41,7 +41,7 @@
             text-transform: uppercase; 
             flex-grow: 1;
             text-align: center;
-            padding-right: 60px; /* Offset for back button to center text */
+            padding-right: 60px;
         }
 
         button {
@@ -60,7 +60,7 @@
 
         .sub-label {
             display: block;
-            font-size: 20px;
+            font-size: 32px; /* Increased from 20px to 32px */
             font-weight: normal;
             text-transform: none;
             margin-top: 4px;
@@ -68,8 +68,8 @@
 
         button:active { transform: translateY(3px); box-shadow: none; }
 
-        .btn-weekday { background-color: var(--color-weekday); }
-        .btn-saturday { background-color: var(--color-saturday); }
+        .btn-weekday { background-color: var(--color-weekday); height: 110px; }
+        .btn-saturday { background-color: var(--color-saturday); height: 110px; }
         .btn-domitys { background-color: var(--color-domitys); }
         .btn-republique { background-color: var(--color-republique); }
         .btn-bruxelles { background-color: var(--color-bruxelles); }
@@ -129,9 +129,9 @@
             <h1>DEPART</h1>
         </div>
         <button class="btn-domitys" onclick="nextStep(3, {from: 'HOME'})">DOMITYS<span class="sub-label">(Jean Jaurès)</span></button>
-        <button class="btn-republique" onclick="nextStep(3, {from: 'BANK'})">RÉPUBLIQUE<span class="sub-label">(République)</span></button>
-        <button class="btn-bruxelles" onclick="nextStep(3, {from: 'LEON BLUM'})">BRUXELLES<span class="sub-label">(Bruxelles)</span></button>
-        <button class="btn-foch" onclick="nextStep(3, {from: 'EARS'})">FOCH<span class="sub-label">(Foch)</span></button>
+        <button class="btn-republique" onclick="nextStep(3, {from: 'BANK'})">BANQUE<span class="sub-label">(République)</span></button>
+        <button class="btn-bruxelles" onclick="nextStep(3, {from: 'LEON BLUM'})">LEON BLUM<span class="sub-label">(Bruxelles)</span></button>
+        <button class="btn-foch" onclick="nextStep(3, {from: 'EARS'})">AMPLIFON<span class="sub-label">(Foch)</span></button>
     </div>
 
     <div id="step3" class="screen">
@@ -166,13 +166,14 @@
         let selection = {};
         const durations = { 'HOME_BANK': 4, 'BANK_HOME': 3, 'HOME_LEON BLUM': 14, 'LEON BLUM_HOME': 14, 'HOME_EARS': 5, 'EARS_HOME': 5 };
         
-        // Data truncated for logic flow
         const busData = {
             weekday: {
                 'HOME_BANK': ["09:01", "09:15", "09:29", "09:43", "10:04", "10:18", "10:32", "10:46", "11:00"],
                 'BANK_HOME': ["09:00", "09:14", "09:28", "09:42", "10:03", "10:17", "10:31", "10:45", "11:06"],
                 'HOME_LEON BLUM': ["09:01", "09:15", "09:29", "10:04", "10:32", "11:00"],
-                'LEON BLUM_HOME': ["09:05", "09:19", "09:33", "10:01", "10:29", "10:57"]
+                'LEON BLUM_HOME': ["09:05", "09:19", "09:33", "10:01", "10:29", "10:57"],
+                'HOME_EARS': ["09:01", "09:15", "09:29", "09:43", "10:04"],
+                'EARS_HOME': ["09:05", "09:12", "09:19", "09:26", "09:33"]
             },
             saturday: {
                 'HOME_BANK': ["09:10", "09:30", "09:50", "10:10", "10:30"],
@@ -186,9 +187,9 @@
                 const container = document.getElementById('dest-options');
                 container.innerHTML = '';
                 if (selection.from === 'HOME') {
-                    addDestBtn(container, 'BANK', 'RÉPUBLIQUE', '(République)', 'btn-republique');
-                    addDestBtn(container, 'LEON BLUM', 'BRUXELLES', '(Bruxelles)', 'btn-bruxelles');
-                    addDestBtn(container, 'EARS', 'FOCH', '(Foch)', 'btn-foch');
+                    addDestBtn(container, 'BANK', 'BANQUE', '(République)', 'btn-republique');
+                    addDestBtn(container, 'LEON BLUM', 'LEON BLUM', '(Bruxelles)', 'btn-bruxelles');
+                    addDestBtn(container, 'EARS', 'AMPLIFON', '(Foch)', 'btn-foch');
                 } else {
                     addDestBtn(container, 'HOME', 'DOMITYS', '(Jean Jaurès)', 'btn-domitys');
                 }
