@@ -60,7 +60,7 @@
 
         .sub-label {
             display: block;
-            font-size: 32px; /* Increased from 20px to 32px */
+            font-size: 32px;
             font-weight: normal;
             text-transform: none;
             margin-top: 4px;
@@ -168,7 +168,7 @@
         
         const busData = {
             weekday: {
-                'HOME_BANK': ["09:01", "09:15", "09:29", "09:43", "10:04", "10:18", "10:32", "10:46", "11:00"],
+                'HOME_BANK': ["09:01", "09:08", "09:15", "09:22", "09:29", "09:36", "09:43", "09:50", "10:04", "10:18", "10:32", "10:46", "11:00"],
                 'BANK_HOME': ["09:00", "09:14", "09:28", "09:42", "10:03", "10:17", "10:31", "10:45", "11:06"],
                 'HOME_LEON BLUM': ["09:01", "09:15", "09:29", "10:04", "10:32", "11:00"],
                 'LEON BLUM_HOME': ["09:05", "09:19", "09:33", "10:01", "10:29", "10:57"],
@@ -232,9 +232,28 @@
             });
 
             const final = [];
-            if (bestIdx > 0) final.push({ ...options[bestIdx - 1], label: 'PLUS TÔT' });
-            final.push({ ...options[bestIdx], label: 'CONSEILLÉ', main: true });
-            if (bestIdx < options.length - 1) final.push({ ...options[bestIdx + 1], label: 'PLUS TARD' });
+            
+            // Logic to always extract 3 options regardless of index position
+            let startIdx;
+            if (options.length <= 3) {
+                startIdx = 0;
+            } else if (bestIdx === 0) {
+                startIdx = 0;
+            } else if (bestIdx === options.length - 1) {
+                startIdx = options.length - 3;
+            } else {
+                startIdx = bestIdx - 1;
+            }
+
+            const selectionSlice = options.slice(startIdx, startIdx + 3);
+            selectionSlice.forEach((o, i) => {
+                let label = "OPTION";
+                if (o.depMin === options[bestIdx].depMin) label = "CONSEILLÉ";
+                else if (o.depMin < options[bestIdx].depMin) label = "PLUS TÔT";
+                else if (o.depMin > options[bestIdx].depMin) label = "PLUS TARD";
+                
+                final.push({ ...o, label: label, main: (label === "CONSEILLÉ") });
+            });
 
             const list = document.getElementById('results-list');
             list.innerHTML = '';
