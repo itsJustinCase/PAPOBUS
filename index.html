@@ -118,7 +118,7 @@
 <body>
 
     <div id="step1" class="screen active">
-        <div class="header-row"><h1>QUEL JOUR ?</h1></div>
+        <div class="header-row"><h1>🗓️QUEL JOUR ?</h1></div>
         <button class="btn-weekday" onclick="nextStep(2, {day: 'weekday'})">LUNDI À VENDREDI</button>
         <button class="btn-saturday" onclick="nextStep(2, {day: 'saturday'})">SAMEDI</button>
     </div>
@@ -128,10 +128,10 @@
             <button class="back-btn" onclick="prevStep(1)">←</button>
             <h1>DEPART DE</h1>
         </div>
-        <button class="btn-domitys" onclick="nextStep(3, {from: 'HOME'})">🏠DOMITYS<span class="sub-label">(Jean Jaurès)</span></button>
-        <button class="btn-republique" onclick="nextStep(3, {from: 'BANK'})">💰BANQUE<span class="sub-label">(République)</span></button>
-        <button class="btn-bruxelles" onclick="nextStep(3, {from: 'LEON BLUM'})">💊LEON BLUM<span class="sub-label">(Bruxelles)</span></button>
-        <button class="btn-foch" onclick="nextStep(3, {from: 'EARS'})">🦻🏻AMPLIFON<span class="sub-label">(Foch)</span></button>
+        <button class="btn-domitys" onclick="nextStep(3, {from: 'HOME'})">🏠DOMITYS🏠<span class="sub-label">(Jean Jaurès)</span></button>
+        <button class="btn-republique" onclick="nextStep(3, {from: 'BANK'})">💰BANQUE💰<span class="sub-label">(République)</span></button>
+        <button class="btn-bruxelles" onclick="nextStep(3, {from: 'LEON BLUM'})">💊LEON BLUM💊<span class="sub-label">(Bruxelles)</span></button>
+        <button class="btn-foch" onclick="nextStep(3, {from: 'EARS'})">🦻🏻AMPLIFON🦻🏻<span class="sub-label">(Foch)</span></button>
     </div>
 
     <div id="step3" class="screen">
@@ -145,7 +145,7 @@
     <div id="step4" class="screen">
         <div class="header-row">
             <button class="back-btn" onclick="prevStep(3)">←</button>
-            <h1 id="time-instruction">ARRIVER VERS</h1>
+            <h1 id="time-instruction">POUR ARRIVER VERS</h1>
         </div>
         <div class="time-box">
             <input type="time" id="targetTime" value="10:00">
@@ -191,15 +191,15 @@
                 const container = document.getElementById('dest-options');
                 container.innerHTML = '';
                 if (selection.from === 'HOME') {
-                    addDestBtn(container, 'BANK', '💰BANQUE', '(République)', 'btn-republique');
-                    addDestBtn(container, 'LEON BLUM', '💊LEON BLUM', '(Bruxelles)', 'btn-bruxelles');
-                    addDestBtn(container, 'EARS', '🦻🏻AMPLIFON', '(Foch)', 'btn-foch');
+                    addDestBtn(container, 'BANK', '💰BANQUE💰', '(République)', 'btn-republique');
+                    addDestBtn(container, 'LEON BLUM', '💊LEON BLUM💊', '(Bruxelles)', 'btn-bruxelles');
+                    addDestBtn(container, 'EARS', '🦻🏻AMPLIFON🦻🏻', '(Foch)', 'btn-foch');
                 } else {
-                    addDestBtn(container, 'HOME', '🏠DOMITYS', '(Jean Jaurès)', 'btn-domitys');
+                    addDestBtn(container, 'HOME', '🏠DOMITYS🏠', '(Jean Jaurès)', 'btn-domitys');
                 }
             }
             if (step === 4) {
-                document.getElementById('time-instruction').innerText = (selection.to === 'HOME') ? "DEPART DE" : "ARRIVER VERS";
+                document.getElementById('time-instruction').innerText = (selection.to === 'HOME') ? "DEPART DE" : "POUR ARRIVER VERS";
             }
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + step).classList.add('active');
